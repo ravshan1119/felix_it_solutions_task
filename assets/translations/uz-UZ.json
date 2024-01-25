@@ -1,0 +1,23 @@
+{
+  "lan": "Tillar",
+  "auth": "Ro'yxatdan o'tish",
+  "firstName": "Ism",
+  "lastName": "Familiya",
+  "phone": "Telefon raqami",
+  "password": "Parol",
+  "confirmPassword": "Parolni tasdiqlang",
+  "save": "Saqlash",
+  "firstNameHint": "Ismingizni kiriting",
+  "lastNameHint": "Familiyangizni kiriting",
+  "phoneHint": "(__) ___ - __ - __",
+  "passwordHint": "Parolni kiriting",
+  "confirmPasswordHint": "Parolni tasdiqlang",
+  "newAds": "Yangi reklama",
+  "title": "Nomi",
+  "description": "Tavsif",
+  "address": "Manzil",
+  "changeLocation": "Manzilni o'zgartirish",
+  "newAdsHint": "Reklama nomini kiriting",
+  "descriptionHint": "Reklama tavsifini kiriting",
+  "addressHint": "Manzilingizni kiriting"
+}

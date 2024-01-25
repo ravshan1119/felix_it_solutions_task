@@ -1,0 +1,23 @@
+{
+  "lan": "Языки",
+  "auth": "Регистрация",
+  "firstName": "Имя",
+  "lastName": "Фамилия",
+  "phone": "Номер телефона",
+  "password": "Пароль",
+  "confirmPassword": "Подтвердите пароль",
+  "save": "Сохранить",
+  "firstNameHint": "Введите ваше имя",
+  "lastNameHint": "Введите вашу фамилию",
+  "phoneHint": "(__) ___ - __ - __",
+  "passwordHint": "Введите ваш пароль",
+  "confirmPasswordHint": "Введите ваш пароль еще раз",
+  "newAds": "Новые объявления",
+  "title": "Название",
+  "description": "Описание",
+  "address": "Адрес по геолокации",
+  "changeLocation": "Изменить местоположение",
+  "newAdsHint": "Введите название объявления",
+  "descriptionHint": "Введите описание объявления",
+  "addressHint": "Введите адрес объявления"
+}

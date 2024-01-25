@@ -1,0 +1,23 @@
+{
+  "lan": "Languages",
+  "auth": "Sign Up",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "phone": "Phone number",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "save": "Save",
+  "firstNameHint": "Enter your first name",
+  "lastNameHint": "Enter your last name",
+  "phoneHint": "(__) ___ - __ - __",
+  "passwordHint": "Enter your password",
+  "confirmPasswordHint": "Enter your confirm password",
+  "newAds": "New Ads",
+  "title": "Title",
+  "description": "Description",
+  "address": "Address by location",
+  "changeLocation": "Change location",
+  "newAdsHint": "Enter product title",
+  "descriptionHint": "Enter the description",
+  "addressHint": "Enter the map adress"
+}
