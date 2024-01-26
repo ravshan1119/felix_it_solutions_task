@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:felix_it_solutions_task/src/domain/models/ads_body_model.dart';
 import 'package:felix_it_solutions_task/src/presentation/cubits/ads_save/ads_cubit.dart';
 import 'package:felix_it_solutions_task/src/presentation/cubits/ads_save/ads_state.dart';
+import 'package:felix_it_solutions_task/src/presentation/views/new_ads/widgets/yandex.dart';
 import 'package:felix_it_solutions_task/src/presentation/views/sign_up/widgets/app_text_field.dart';
 import 'package:felix_it_solutions_task/src/utils/resources/app_icons.dart';
 import 'package:felix_it_solutions_task/src/utils/resources/size_extension.dart';
@@ -9,6 +10,7 @@ import 'package:felix_it_solutions_task/translations/locale_keys.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import '../../../utils/constants/constants.dart';
 
@@ -156,6 +158,15 @@ class _NewAdsPageState extends State<NewAdsPage> {
                     labelText: LocaleKeys.address.tr(),
                     controller: addressController,
                   ),
+                  24.ph,
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Yandex()));
+                      },
+                      child: const Text("Yandex"))
                 ],
               ),
             ),
