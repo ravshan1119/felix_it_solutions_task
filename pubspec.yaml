@@ -24,6 +24,7 @@ dependencies:
   yandex_mapkit: ^3.4.0
   geolocator: ^10.1.0
   permission_handler: ^11.2.0
+  flutter_map: ^6.1.0
 
 
 

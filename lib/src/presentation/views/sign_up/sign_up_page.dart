@@ -91,6 +91,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   labelText: LocaleKeys.firstName.tr(),
                   controller: firstNameController,
                   keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
                 ),
                 12.ph,
                 AppTextField(
@@ -98,6 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   labelText: LocaleKeys.lastName.tr(),
                   controller: lastNameController,
                   keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
                 ),
                 12.ph,
                 AppTextField(
@@ -105,6 +107,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   labelText: LocaleKeys.phone.tr(),
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
+                  textInputAction: TextInputAction.next,
                 ),
                 12.ph,
                 AppTextField(
@@ -112,6 +115,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   labelText: LocaleKeys.password.tr(),
                   controller: passwordController,
                   keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.next,
                 ),
                 12.ph,
                 AppTextField(
@@ -119,6 +123,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   labelText: LocaleKeys.confirmPassword.tr(),
                   controller: confirmPasswordController,
                   keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.done,
                 ),
                 12.ph,
                 GlobalButton(
@@ -135,8 +140,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Пароли не совпадают"),
                       ));
-                    }
-                    if (firstNameController.text.isEmpty ||
+                    } else if (firstNameController.text.isEmpty ||
                         lastNameController.text.isEmpty ||
                         phoneController.text.isEmpty ||
                         passwordController.text.isEmpty ||

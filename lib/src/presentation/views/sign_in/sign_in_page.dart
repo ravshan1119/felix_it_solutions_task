@@ -85,6 +85,7 @@ class _SignInPageState extends State<SignInPage> {
                   labelText: LocaleKeys.firstName.tr(),
                   controller: firstNameController,
                   keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
                 ),
                 12.ph,
                 AppTextField(
@@ -92,6 +93,7 @@ class _SignInPageState extends State<SignInPage> {
                   labelText: LocaleKeys.password.tr(),
                   controller: passwordController,
                   keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.done,
                 ),
                 12.ph,
                 GlobalButton(

@@ -44,6 +44,7 @@ class _NewAdsPageState extends State<NewAdsPage> {
     const defLocation = MoscowLocation();
     try {
       location = await LocationService().getCurrentLocation();
+      addressController.text = "${location.lat}, ${location.long}";
     } catch (_) {
       location = defLocation;
     }
@@ -71,16 +72,20 @@ class _NewAdsPageState extends State<NewAdsPage> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController addressController = TextEditingController();
 
+  double height = 0;
+  double width = 0;
+
   @override
   void dispose() {
     titleController.dispose();
     descriptionController.dispose();
-    addressController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
+    width = MediaQuery.of(context).size.width;
     return BlocConsumer<AdsSaveCubit, AdsSaveState>(
       listener: (context, state) {
         if (state.status == AppStatus.error) {
@@ -108,11 +113,14 @@ class _NewAdsPageState extends State<NewAdsPage> {
             elevation: 0,
             scrolledUnderElevation: 0,
           ),
-          body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
+          body: Stack(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            fit: StackFit.passthrough,
+            alignment: Alignment.bottomCenter,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 24 / 390),
+                child: ListView(children: [
                   ListTile(
                     leading: GestureDetector(
                       onTap: () {
@@ -120,8 +128,8 @@ class _NewAdsPageState extends State<NewAdsPage> {
                       },
                       child: SvgPicture.asset(
                         AppIcons.exit,
-                        height: 32,
-                        width: 32,
+                        height: height * 32 / 844,
+                        width: height * 32 / 844,
                       ),
                     ),
                     trailing: GestureDetector(
@@ -142,14 +150,14 @@ class _NewAdsPageState extends State<NewAdsPage> {
                               .showSnackBar(const SnackBar(
                             content: Text("All fields are required"),
                           ));
+                        } else {
+                          context.read<AdsSaveCubit>().adsSave(adsBodyModel);
+                          setState(() {
+                            titleController.clear();
+                            descriptionController.clear();
+                            _fetchCurrentLocation();
+                          });
                         }
-
-                        context.read<AdsSaveCubit>().adsSave(adsBodyModel);
-                        setState(() {
-                          titleController.clear();
-                          descriptionController.clear();
-                          addressController.clear();
-                        });
                       },
                       child: SvgPicture.asset(AppIcons.arrowRight),
                     ),
@@ -163,25 +171,27 @@ class _NewAdsPageState extends State<NewAdsPage> {
                       ),
                     ),
                   ),
-                  32.ph,
+                  12.ph,
                   AppTextField(
                     hintText: LocaleKeys.title.tr(),
                     labelText: LocaleKeys.title.tr(),
                     controller: titleController,
+                    textInputAction: TextInputAction.next,
                   ),
-                  24.ph,
+                  12.ph,
                   AppTextField(
                     hintText: LocaleKeys.descriptionHint.tr(),
                     labelText: LocaleKeys.description.tr(),
                     controller: descriptionController,
-                    maxLines: 6,
+                    textInputAction: TextInputAction.done,
+                    maxLines: 4,
                   ),
-                  24.ph,
+                  12.ph,
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.3,
+                            width: MediaQuery.of(context).size.width * 0.2,
                             child: const Divider(
                               color: Colors.black,
                             )),
@@ -196,39 +206,43 @@ class _NewAdsPageState extends State<NewAdsPage> {
                           textAlign: TextAlign.left,
                         ),
                         SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.3,
+                            width: MediaQuery.of(context).size.width * 0.2,
                             child: const Divider(
                               color: Colors.black,
                             )),
                       ]),
-                  24.ph,
+                  12.ph,
                   AppTextField(
                     hintText: LocaleKeys.addressHint.tr(),
                     labelText: LocaleKeys.address.tr(),
                     controller: addressController,
                   ),
-                  24.ph,
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    width: MediaQuery.of(context).size.width,
-                    child: YandexMap(
-                      onMapCreated: (controller) {
-                        mapControllerCompleter.complete(controller);
-                      },
-                      onMapTap: (point) {
-                        _moveToCurrentLocation(AppLatLong(
-                          lat: point.latitude,
-                          long: point.longitude,
-                        ));
-                        addressController.text =
-                            "${point.latitude}, ${point.longitude}";
-                        setState(() {});
-                      },
-                    ),
-                  )
-                ],
+                ]),
               ),
-            ),
+              Positioned(
+                child: SizedBox(
+                  height: MediaQuery.of(context).size.height / 3.5,
+                  child: YandexMap(
+                    mapObjects: [],
+                    mapType: MapType.vector,
+                    fastTapEnabled: true,
+                    mode2DEnabled: true,
+                    onMapCreated: (controller) async {
+                      mapControllerCompleter.complete(controller);
+                    },
+                    onMapTap: (point) {
+                      _moveToCurrentLocation(AppLatLong(
+                        lat: point.latitude,
+                        long: point.longitude,
+                      ));
+                      addressController.text =
+                          "${point.latitude}, ${point.longitude}";
+                      setState(() {});
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

@@ -10,6 +10,7 @@ class AppTextField extends StatelessWidget {
     this.controller,
     this.maxLines,
     this.keyboardType,
+    this.textInputAction,
   });
 
   final String hintText;
@@ -17,6 +18,7 @@ class AppTextField extends StatelessWidget {
   final TextEditingController? controller;
   final int? maxLines;
   final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class AppTextField extends StatelessWidget {
         ),
         5.ph,
         TextField(
+          textInputAction: textInputAction,
           inputFormatters:
               keyboardType == TextInputType.phone ? [maskFormatter] : null,
           controller: controller,
