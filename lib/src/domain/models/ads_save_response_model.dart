@@ -11,7 +11,7 @@ String temperaturesToJson(AdsSaveResponseModel data) => json.encode(data.toJson(
 class AdsSaveResponseModel {
   String title;
   String description;
-  int lat;
+  double lat;
   DateTime updatedAt;
   DateTime createdAt;
   int id;
@@ -28,7 +28,7 @@ class AdsSaveResponseModel {
   AdsSaveResponseModel copyWith({
     String? title,
     String? description,
-    int? lat,
+    double? lat,
     DateTime? updatedAt,
     DateTime? createdAt,
     int? id,

@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:felix_it_solutions_task/src/domain/models/ads_body_model.dart';
 import 'package:felix_it_solutions_task/src/presentation/cubits/ads_save/ads_cubit.dart';
 import 'package:felix_it_solutions_task/src/presentation/cubits/ads_save/ads_state.dart';
-import 'package:felix_it_solutions_task/src/presentation/views/new_ads/widgets/yandex.dart';
 import 'package:felix_it_solutions_task/src/presentation/views/sign_up/widgets/app_text_field.dart';
 import 'package:felix_it_solutions_task/src/utils/resources/app_icons.dart';
 import 'package:felix_it_solutions_task/src/utils/resources/size_extension.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
+import '../../../data/datasources/remote/yandex_service.dart';
 import '../../../utils/constants/constants.dart';
 
 class NewAdsPage extends StatefulWidget {
@@ -22,6 +24,49 @@ class NewAdsPage extends StatefulWidget {
 }
 
 class _NewAdsPageState extends State<NewAdsPage> {
+  @override
+  void initState() {
+    _initPermission().ignore();
+    super.initState();
+  }
+
+  final mapControllerCompleter = Completer<YandexMapController>();
+
+  Future<void> _initPermission() async {
+    if (!await LocationService().checkPermission()) {
+      await LocationService().requestPermission();
+    }
+    await _fetchCurrentLocation();
+  }
+
+  Future<void> _fetchCurrentLocation() async {
+    AppLatLong location;
+    const defLocation = MoscowLocation();
+    try {
+      location = await LocationService().getCurrentLocation();
+    } catch (_) {
+      location = defLocation;
+    }
+    _moveToCurrentLocation(location);
+  }
+
+  Future<void> _moveToCurrentLocation(
+    AppLatLong appLatLong,
+  ) async {
+    (await mapControllerCompleter.future).moveCamera(
+      animation: const MapAnimation(type: MapAnimationType.linear, duration: 1),
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: Point(
+            latitude: appLatLong.lat,
+            longitude: appLatLong.long,
+          ),
+          zoom: 12,
+        ),
+      ),
+    );
+  }
+
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -84,8 +129,12 @@ class _NewAdsPageState extends State<NewAdsPage> {
                         AdsBodyModel adsBodyModel = AdsBodyModel(
                           title: titleController.text,
                           description: descriptionController.text,
-                          lot: 56,
-                          lat: 41,
+                          lot: double.parse(
+                            addressController.text.split(", ")[0],
+                          ),
+                          lat: double.parse(
+                            addressController.text.split(", ")[1],
+                          ),
                         );
                         if (titleController.text.isEmpty ||
                             descriptionController.text.isEmpty) {
@@ -159,14 +208,24 @@ class _NewAdsPageState extends State<NewAdsPage> {
                     controller: addressController,
                   ),
                   24.ph,
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Yandex()));
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    width: MediaQuery.of(context).size.width,
+                    child: YandexMap(
+                      onMapCreated: (controller) {
+                        mapControllerCompleter.complete(controller);
                       },
-                      child: const Text("Yandex"))
+                      onMapTap: (point) {
+                        _moveToCurrentLocation(AppLatLong(
+                          lat: point.latitude,
+                          long: point.longitude,
+                        ));
+                        addressController.text =
+                            "${point.latitude}, ${point.longitude}";
+                        setState(() {});
+                      },
+                    ),
+                  )
                 ],
               ),
             ),

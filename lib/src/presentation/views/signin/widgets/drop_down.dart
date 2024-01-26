@@ -89,6 +89,8 @@ class _DropDownItemState extends State<DropDownItem> {
                 return null;
               },
               onChanged: (value) async {
+                selectedValue = value.toString();
+
                 if (selectedValue == "Россия") {
                   await context.setLocale(const Locale('ru'));
                 } else if (selectedValue == "English") {
@@ -96,7 +98,9 @@ class _DropDownItemState extends State<DropDownItem> {
                 } else if (selectedValue == "Uzbek") {
                   await context.setLocale(const Locale('uz'));
                 }
-                setState(() {});
+                setState(() {
+                  print("$selectedValue");
+                });
               },
               onSaved: (value) async {
                 selectedValue = value.toString();

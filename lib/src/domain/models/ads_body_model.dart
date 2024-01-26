@@ -11,8 +11,8 @@ String temperaturesToJson(AdsBodyModel data) => json.encode(data.toJson());
 class AdsBodyModel {
   String title;
   String description;
-  int lot;
-  int lat;
+  double lot;
+  double lat;
 
   AdsBodyModel({
     required this.title,
@@ -24,8 +24,8 @@ class AdsBodyModel {
   AdsBodyModel copyWith({
     String? title,
     String? description,
-    int? lot,
-    int? lat,
+    double? lot,
+    double? lat,
   }) =>
       AdsBodyModel(
         title: title ?? this.title,
